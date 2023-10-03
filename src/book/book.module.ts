@@ -5,6 +5,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { BookSchema } from './entities/book.schema';
 
 @Module({
+  /**
+   * importation du module mongoose pour l'entité Book
+   * Nom de l'Entity
+   * Nom du schema
+   */
   imports: [MongooseModule.forFeature([{ name: 'Book', schema: BookSchema }])],
   controllers: [BookController],
   providers: [BookService],
