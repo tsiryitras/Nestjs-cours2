@@ -1,0 +1,98 @@
+1. **Introduction**
+
+Cette documentation guide le processus de configuration du Socle NestJS-api avec une base de données MongoDB en utilisant Docker pour la gestion de la base de données. La source du projet ce trouve dans https://git.dreamslab.fr/socle/nestjs-api.git.
+
+
+2. **Prérequis**
+
+_Les outils suivants sont nécessaire pour le bon fonctionnements du projet, assurez-vous d'avoir les éléments suivants installés sur votre système :_
+
+- Node.js et npm
+- Docker
+- Code éditeur de votre choix
+
+3. **Installation de Node.js et npm**.
+
+_Pour Installer Node.js, suivez les instructions du site officiel de_
+  [Node.js](https://nodejs.org/).
+_Apres l'installation, exécuter les commande suivants pour vérifier Node.js_
+- node -v
+- npm -v
+
+4. **Configuration du socle Nestjs-api**.
+
+_Cloner le repository du Socle NestJs-api_
+- git clone https://git.dreamslab.fr/socle/nestjs-api.git
+- cd nest-js-api
+- npm install
+
+5. **Installation de Docker**.
+
+_Pour Installer Docker, suivez les instructions du site officiel de_ [Docker](https://docs.docker.com/get-docker/)
+
+_Vérifiez l'installation en exécutant la commande suivante dans votre terminal :_
+- docker --version
+
+6. **Installation et configuration de MongoDB avec Docker**
+
+_Extrayez l'image Docker de MongoDB_
+- docker pull mongo
+
+_Exécuter l'image et creér un conteneur MongoDB_
+- docker run --name mongo -d -p 27017:27017 mongo
+
+
+_Vérifiez que le conteneur_ `mongo` _est en cours d'exécution_
+- docker ps
+
+_Connectez-vous au déploiement MongoDB avec mongosh_
+- docker exec -it mongo mongosh
+
+7. **Installation de NestJS**
+
+_Installez globalement le CLI NestJS_
+
+- npm install -g @nestjs/cli
+
+_Créez un nouveau projet NestJS:_
+
+- nest new nom-du-projet
+
+_Pour plus d'information voir le site officel de_ [NestJs](https://docs.nestjs.com/)
+
+8. **Configuration du projet Nestjs-api por MongoDB**
+- npm install --save @nestjs/mongoose mongoose
+
+9. **Configuration du projet**
+- Copier et coller le contenue du fichier `.env.template` dans un nouveau fichier `.env`a la racine qu projet
+- Changer le lien du `MONGO_HOST` et `MONGO_DATABASE` par votre configuration
+- Commenter les ligne suivants:
+![Screenshot_20231002_141930](uploads/94bc8c7ad2e6ca4fcfa1e607f138988a/Screenshot_20231002_141930.png)
+et
+![Screenshot_20231002_142003](uploads/f5c46f9b003477afafb615d946febe41/Screenshot_20231002_142003.png)
+qui se trouve dans `src/migration.ts` et `src/main.ts`
+
+- Enlever le propriété entities dans `src/user/entities/user.entities/ts`
+
+![Screenshot_20231002_142534](uploads/969a25621c7f15f7095e661bdebfce6f/Screenshot_20231002_142534.png)
+
+- Enlever le `entity:""` dans `src/db-script/scripts/1.0.0.ts`
+
+![Screenshot_20231002_143014](uploads/7a1f8ef723d492a6af950b7a6c922616/Screenshot_20231002_143014.png)
+
+_Exécuter le commande suivant pour faire une migration local de la base de données_
+
+- npm run migration:local
+
+_Commenter toutes les lignes contenants_ `@RequirePermissions()` dans `src/user/user.controller.ts`
+
+![Screenshot_20231002_143518](uploads/d932d8088efdbca5285ed781ccb7ef5b/Screenshot_20231002_143518.png)
+
+10. **Démarrage et test**
+
+_Pour démarrer en mode développement,exécuter le commande suivant:_
+
+- npm run start:dev
+
+_Pour le test, entrer l'adresse suivant:_
+- http://localhost:3000/user?page=2&pageSize=10
