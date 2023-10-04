@@ -1,4 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose from 'mongoose';
+import { User } from 'src/auth/entities/user.schema';
 
 export enum Category {
   ADVENTURE = 'Adventure',
@@ -25,6 +27,12 @@ export class Book {
 
   @Prop()
   category: Category;
+
+  /**
+   * Ajouter une protection pour l' entity book en récupérant le token
+   */
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  user: User;
 }
 
 export const BookSchema = SchemaFactory.createForClass(Book);
